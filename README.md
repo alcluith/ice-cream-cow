@@ -1,6 +1,6 @@
 # ice-cream-cow
 
-Very simple and slightly surreal pygame zero game to try out the functions
+Very simple and slightly surreal pygame zero game.
 
 Based on code from the more coherent [https://github.com/williamhbell/PygameZero](https://github.com/williamhbell/PygameZero)
 
