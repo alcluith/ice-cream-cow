@@ -12,7 +12,7 @@ centre_y = HEIGHT/2
 
 # The score
 score = 0
-topScore = 0
+
 
 # are the friends together
 together = False
@@ -39,9 +39,9 @@ def startPositions():
   
   penguin.image = 'penguin2'
   cow.image = 'cow'
-  penguin.pos = 35, 350  # The initial position of the penguin
-  cow.pos = 550, 350  # The initial position of the cow
-  ball.pos = 0, HEIGHT*2  # off screen
+  penguin.pos = 35, 370  # The initial position of the penguin
+  cow.pos = 550, 370  # The initial position of the cow
+  ball.pos = 100, -100  # off screen
   ball_vx = 0
   ball_vy = 0
   score = 0
@@ -55,12 +55,27 @@ startPositions() # Set the initial positions of the spacecraft and rock
 
 
 def newBallPos():
-  return  random.randint(0,WIDTH), -50  # off screen
+  print("in new ball pos")
+  return  random.randint(0,WIDTH), 50  # off screen
 
 def newBallVel():
-  return  (random.randint(-2,2),  (random.randint(2,4) ) ) # off screen
+  return  (random.randint(-2,2),  (random.randint(4,6) ) ) # off screen
+
+def on_key_down(key):
+  if key == keys.SPACE:
+    set_penguin_jump()
+    
+
+def set_penguin_jump():
+    sounds.karate.play()
+    animate(penguin, tween='decelerate', duration=1,pos=(penguin.x, penguin.y - 100))
+    clock.schedule_unique(set_penguin_normal, 1.0)
 
 
+def set_penguin_normal():
+    animate(penguin, tween='bounce_end', duration=1.0,pos=(penguin.x, penguin.y + 100))
+ 
+    
 
 
 # ---------------------------------------
@@ -70,7 +85,7 @@ def draw():
   screen.blit('beach2', (0,0))
   
   penguin.draw()
-  cow.draw()
+  cow.draw()  
   ball.draw()
 
    # Draw the score information at the bottom of the screen.
@@ -89,7 +104,7 @@ def resetPositions():
   global together
   penguin.image = 'penguin2'
   cow.image = 'cow'
-  penguin.pos = 35, 350  # The initial position of the penguin
+  penguin.pos = 35, 370  # The initial position of the penguin
   together = False
   (ball.x, ball.y) = newBallPos()
   (ball_vx, ball_vy) = newBallVel()
@@ -111,13 +126,20 @@ def updateBall():
   global ball_vx
   global ball_vy
   
-  if ball.top > HEIGHT or ball.right < 0 or ball.left > WIDTH:
-   # print("off screen")
+  if ball.bottom > HEIGHT - 20:
+    print("in if one")
+    #ball_vx = -1 * ball_vx
+    ball_vy = -1 * ball_vy
+  
+  if  ball.right < 0 or ball.left > WIDTH or ball.bottom < 0:
+    print("in if two")
     (ball.x, ball.y) = newBallPos()
     (ball_vx, ball_vy) = newBallVel()
 
+  print("in updateball  " + str(ball.bottom))
   ball.y = ball.y + ball_vy
   ball.x = ball.x + ball_vx
+  print("in updateball2  " + str(ball.bottom))
   ball.draw()
 
 
