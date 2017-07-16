@@ -12,7 +12,7 @@ centre_y = HEIGHT/2
 
 # The score
 score = 0
-topScore = 0
+
 
 # are the friends together
 together = False
@@ -40,7 +40,7 @@ def startPositions():
   penguin.image = 'penguin2'
   cow.image = 'cow'
   penguin.pos = 35, 350  # The initial position of the penguin
-  cow.pos = 550, 350  # The initial position of the cow
+  cow.pos = 550, 370  # The initial position of the cow
   ball.pos = 0, HEIGHT*2  # off screen
   ball_vx = 0
   ball_vy = 0
@@ -60,7 +60,21 @@ def newBallPos():
 def newBallVel():
   return  (random.randint(-2,2),  (random.randint(2,4) ) ) # off screen
 
+def on_key_down(key):
+  if key == keys.SPACE:
+    set_penguin_jump()
+    
 
+def set_penguin_jump():
+    sounds.karate.play()
+    animate(penguin, tween='decelerate', duration=1,pos=(penguin.x, penguin.y - 100))
+    clock.schedule_unique(set_penguin_normal, 1.0)
+
+
+def set_penguin_normal():
+    animate(penguin, tween='bounce_end', duration=1.0,pos=(penguin.x, penguin.y + 100))
+ 
+    
 
 
 # ---------------------------------------
@@ -70,7 +84,7 @@ def draw():
   screen.blit('beach2', (0,0))
   
   penguin.draw()
-  cow.draw()
+  cow.draw()  
   ball.draw()
 
    # Draw the score information at the bottom of the screen.
