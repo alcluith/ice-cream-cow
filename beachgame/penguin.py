@@ -1,3 +1,4 @@
+import pgzrun
 # import the random library, to set the initial position of the rock.
 import random
 
@@ -36,7 +37,7 @@ def startPositions():
   global score
   global topScore
   global together
-  
+
   penguin.image = 'penguin2'
   cow.image = 'cow'
   penguin.pos = 35, 370  # The initial position of the penguin
@@ -47,7 +48,7 @@ def startPositions():
   score = 0
   topScore = 0
   together = False
-  
+
 
 # Starting settings for the game
 gameOver = False # The game has not finished yet
@@ -64,7 +65,7 @@ def newBallVel():
 def on_key_down(key):
   if key == keys.SPACE:
     set_penguin_jump()
-    
+
 
 def set_penguin_jump():
     sounds.karate.play()
@@ -74,8 +75,8 @@ def set_penguin_jump():
 
 def set_penguin_normal():
     animate(penguin, tween='bounce_end', duration=1.0,pos=(penguin.x, penguin.y + 100))
- 
-    
+
+
 
 
 # ---------------------------------------
@@ -83,14 +84,14 @@ def set_penguin_normal():
 def draw():
   screen.clear()
   screen.blit('beach2', (0,0))
-  
+
   penguin.draw()
-  cow.draw()  
+  cow.draw()
   ball.draw()
 
    # Draw the score information at the bottom of the screen.
   screen.draw.text("Cones delivered: "+str(score), center=(centre_x-100, HEIGHT-10.))
- 
+
   # Check to see if the game is over
   if gameOver:
     # If the game is over, then print a series of red rectangles
@@ -125,12 +126,12 @@ def updateBall():
   global ball
   global ball_vx
   global ball_vy
-  
+
   if ball.bottom > HEIGHT - 20:
     print("in if one")
     #ball_vx = -1 * ball_vx
     ball_vy = -1 * ball_vy
-  
+
   if  ball.right < 0 or ball.left > WIDTH or ball.bottom < 0:
     print("in if two")
     (ball.x, ball.y) = newBallPos()
@@ -171,7 +172,7 @@ def update():
 
   if penguin_collision:
     penguin.image = 'pow'
-    sounds.pow.play()      # sound of penguin exploding 
+    sounds.pow.play()      # sound of penguin exploding
     ball.pos = 0, HEIGHT*2  # off screen
     gameOver = True
 
@@ -182,16 +183,5 @@ def update():
       score += 1
       together = True
       clock.schedule(resetPositions, 0.5)
-      
-    
 
-
-  
-    
-    
-    
-
-  
-
-  
-  
+pgzrun.go()
